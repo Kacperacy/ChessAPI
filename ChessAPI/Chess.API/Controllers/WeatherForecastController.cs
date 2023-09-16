@@ -1,4 +1,6 @@
+using Chess.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace Chess.API.Controllers;
 
@@ -12,15 +14,22 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly MongoDBService _db;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, MongoDBService db)
     {
         _logger = logger;
+        _db = db;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IEnumerable<WeatherForecast>> Get()
     {
+        Test test = new Test()
+        {
+            Name = "Test",
+        };
+        await _db.Add(test);
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
