@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ChessAPI.Controllers;
+namespace Chess.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]

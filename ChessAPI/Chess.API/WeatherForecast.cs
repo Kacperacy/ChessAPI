@@ -1,4 +1,4 @@
-namespace ChessAPI;
+namespace Chess.API;
 
 public class WeatherForecast
 {
