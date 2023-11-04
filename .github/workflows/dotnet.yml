@@ -14,8 +14,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      working-directory: /ChessAPI/
+    defaults:
+      run:
+        working-directory: ./ChessAPI/ChessAPI
 
     steps:
     - uses: actions/checkout@v3
@@ -25,10 +26,7 @@ jobs:
         dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ${{env.working-directory}}
     - name: Build
       run: dotnet build ChessAPI.sln --no-restore
-      working-directory: ${{env.working-directory}}
     - name: Test
       run: dotnet test ChessAPI.sln --no-build --verbosity normal
-      working-directory: ${{env.working-directory}}
