@@ -14,10 +14,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./ChessAPI/ChessAPI
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -25,8 +21,8 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./ChessAPI/ChessAPI/ChessAPI.sln
     - name: Build
-      run: dotnet build ChessAPI.sln --no-restore
+      run: dotnet build ./ChessAPI/ChessAPI/ChessAPI.sln --no-restore
     - name: Test
-      run: dotnet test ChessAPI.sln --no-build --verbosity normal
+      run: dotnet test ./ChessAPI/ChessAPI/ChessAPI.sln --no-build --verbosity normal
