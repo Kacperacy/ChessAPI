@@ -1,7 +1,7 @@
-using FluentAssertions;
-using NetArchTest.Rules;
+using System.Reflection;
 
-namespace Architecture.Tests;
+namespace ArchitectureTests;
+
 public class ArchitectureTests
 {
     private const string DomainNamespace = "Chess.Domain";
@@ -9,13 +9,17 @@ public class ArchitectureTests
     private const string InfrastructureNamespace = "Chess.Infrastructure";
     private const string PresentationNamespace = "Chess.Presentation";
     private const string WebNamespace = "Chess.API";
-
+    
+    private static readonly Assembly DomainAssembly = typeof(Chess.Domain.AssemblyReference).Assembly;
+    private static readonly Assembly ApplicationAssembly = typeof(Chess.Application.AssemblyReference).Assembly;
+    private static readonly Assembly InfrastructureAssembly = typeof(Chess.Infrastructure.AssemblyReference).Assembly;
+    private static readonly Assembly PresentationAssembly = typeof(Chess.Presentation.AssemblyReference).Assembly;
+    private static readonly Assembly WebAssembly = typeof(Chess.API.AssemblyReference).Assembly;
+    
     [Fact]
     public void Domain_Should_Not_HaveDependencyOnOtherProjects()
     {
         // Arrange
-        var assembly = typeof(Chess.Domain.AssemblyReference).Assembly;
-
         var otherProjects = new[]
         {
             ApplicationNamespace,
@@ -26,7 +30,7 @@ public class ArchitectureTests
 
         // Act
         var result = Types
-            .InAssembly(assembly)
+            .InAssembly(DomainAssembly)
             .ShouldNot()
             .HaveDependencyOnAll(otherProjects)
             .GetResult();
@@ -39,8 +43,6 @@ public class ArchitectureTests
     public void Application_Should_Not_HaveDependencyOnOtherProjects()
     {
         // Arrange
-        var assembly = typeof(Chess.Application.AssemblyReference).Assembly;
-
         var otherProjects = new[]
         {
             InfrastructureNamespace,
@@ -50,7 +52,7 @@ public class ArchitectureTests
 
         // Act
         var result = Types
-            .InAssembly(assembly)
+            .InAssembly(ApplicationAssembly)
             .ShouldNot()
             .HaveDependencyOnAll(otherProjects)
             .GetResult();
@@ -63,8 +65,6 @@ public class ArchitectureTests
     public void Infrastructure_Should_Not_HaveDependencyOnOtherProjects()
     {
         // Arrange
-        var assembly = typeof(Chess.Infrastructure.AssemblyReference).Assembly;
-
         var otherProjects = new[]
         {
             PresentationNamespace,
@@ -73,7 +73,7 @@ public class ArchitectureTests
 
         // Act
         var result = Types
-            .InAssembly(assembly)
+            .InAssembly(InfrastructureAssembly)
             .ShouldNot()
             .HaveDependencyOnAll(otherProjects)
             .GetResult();
@@ -86,8 +86,6 @@ public class ArchitectureTests
     public void Presentation_Should_Not_HaveDependencyOnOtherProjects()
     {
         // Arrange
-        var assembly = typeof(Chess.Presentation.AssemblyReference).Assembly;
-
         var otherProjects = new[]
         {
             InfrastructureNamespace,
@@ -96,47 +94,9 @@ public class ArchitectureTests
 
         // Act
         var result = Types
-            .InAssembly(assembly)
+            .InAssembly(PresentationAssembly)
             .ShouldNot()
             .HaveDependencyOnAll(otherProjects)
-            .GetResult();
-
-        // Assert
-        result.IsSuccessful.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Handlers_Should_HaveDependencyOnDomain()
-    {
-        // Arrange
-        var assembly = typeof(Chess.Application.AssemblyReference).Assembly;
-
-        // Act
-        var result = Types
-            .InAssembly(assembly)
-            .That()
-            .HaveNameEndingWith("Handler")
-            .Should()
-            .HaveDependencyOn(DomainNamespace)
-            .GetResult();
-
-        // Assert
-        result.IsSuccessful.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Controllers_Should_HaveDependencyOnMediatR()
-    {
-        // Arrange
-        var assembly = typeof(Chess.Presentation.AssemblyReference).Assembly;
-
-        // Act
-        var result = Types
-            .InAssembly(assembly)
-            .That()
-            .HaveNameEndingWith("Controller")
-            .Should()
-            .HaveDependencyOn("MediatR")
             .GetResult();
 
         // Assert

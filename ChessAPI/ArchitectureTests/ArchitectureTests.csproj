@@ -7,6 +7,8 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <AssemblyName>ArchitectureTests</AssemblyName>
+    <RootNamespace>ArchitectureTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
