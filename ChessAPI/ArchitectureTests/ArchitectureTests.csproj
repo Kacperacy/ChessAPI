@@ -27,7 +27,6 @@
     <ProjectReference Include="..\Chess.Application\Chess.Application.csproj" />
     <ProjectReference Include="..\Chess.Domain\Chess.Domain.csproj" />
     <ProjectReference Include="..\Chess.Infrastructure\Chess.Infrastructure.csproj" />
-    <ProjectReference Include="..\Chess.Presentation\Chess.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

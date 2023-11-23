@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Chess.Presentation
+namespace Chess.Domain
 {
     public static class Extensions
     {
-        public static IServiceCollection AddPresentation(this IServiceCollection services)
+        public static IServiceCollection AddDomain(this IServiceCollection services)
         {
             return services;
         }
