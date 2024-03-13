@@ -31,14 +31,22 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    app.UseCors(config =>
+    {
+        config.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 }
 
 app.UseHttpsRedirection();
 
-app.UseSignalR();
-
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseSignalR();
 
 app.Run();
